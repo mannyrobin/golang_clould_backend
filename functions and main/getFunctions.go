@@ -2,9 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"io/ioutil"
+	"strings"
+	"errors"
 )
 
 // @Return:
@@ -42,8 +43,8 @@ func getBody(url string, myClient http.Client) ([]byte, error){
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		// Check if req has errors
-		panic(err)
+		body := []byte(nil)
+		return body, err
 	}
 
 	//TODO: make username changeable
@@ -53,7 +54,8 @@ func getBody(url string, myClient http.Client) ([]byte, error){
 	// Try to execute request
 	res, doError := myClient.Do(req)
 	if doError != nil {
-		panic(err)
+		body := []byte(nil)
+		return body, doError
 	}
 
 	body, readError := ioutil.ReadAll(res.Body)
@@ -63,4 +65,23 @@ func getBody(url string, myClient http.Client) ([]byte, error){
 		return body, rtrError
 	}
 	return body, nil
+}
+
+func getGitRepoUrl(rawUrl *http.Request) ([]string, error){
+
+	gitRepo := strings.Split(rawUrl.URL.Path, "/")
+
+	// Check if url is valid | [4] = owner in URL | [5] = repository in URL
+	if len(gitRepo) >= 6 && gitRepo[3] == "github.com" {
+		return gitRepo, nil
+	}
+	return gitRepo, errors.New("Invalid URL!")
+}
+
+func getHTTP403(w http.ResponseWriter, failed string){
+	http.Error(w, "Could not get" + failed + "data" , 403)
+}
+
+func getHTTP500(w http.ResponseWriter, failed string){
+	http.Error(w, "Could not process" + failed + "data" , 500)
 }

@@ -1,5 +1,6 @@
 package main
-// Data that is
+
+// Data that is presented
 type PresentedData struct {
 	Project string 		`json:"project"`
 	Owner string 		`json:"owner"`
@@ -10,6 +11,7 @@ type PresentedData struct {
 
 // Data from repo front
 type RepoData struct{
+	Message string 		`json:"message"`
 	Project string 		`json:"name"`
 	Owner Owner 		`json:"owner"`
 	Contributors string `json:"contributors_url"`
