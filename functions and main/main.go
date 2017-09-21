@@ -11,7 +11,6 @@ package main
 
 import (
 	"net/http"
-	"strings"
 	"time"
 	"encoding/json"
 )
@@ -75,7 +74,7 @@ func handlerGitURL(w http.ResponseWriter, r *http.Request){
 		json.Marshal(&presentedData)
 		json.NewEncoder(w).Encode(presentedData)
 	} else{
-		http.Error(w, "Repository " + strings.ToLower(repoData.Message), 404)
+		http.Error(w, "Repository not found", 404)
 	}
 
 }
