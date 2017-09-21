@@ -15,10 +15,11 @@ import (
 	"encoding/json"
 )
 
+
 func handlerGitURL(w http.ResponseWriter, r *http.Request){
 	http.Header.Add(w.Header(), "content-type", "application/json")
-	rawUrl, error := getGitRepoUrl(r)
-	if error != nil{
+	rawUrl, repoError := getGitRepoUrl(r)
+	if repoError != nil{
 		getHTTP500(w,"repository url")
 	}
 

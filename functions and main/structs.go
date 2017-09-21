@@ -1,6 +1,6 @@
 package main
-
 // Data that is presented
+
 type PresentedData struct {
 	Project string 		`json:"project"`
 	Owner string 		`json:"owner"`
