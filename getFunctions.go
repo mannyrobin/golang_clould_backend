@@ -2,27 +2,28 @@ package main
 
 import (
 	"encoding/json"
-	"net/http"
-	"io/ioutil"
-	"strings"
 	"errors"
-
+	"io/ioutil"
+	"net/http"
+	"strings"
 )
 
+// GetContributor ...
 // @Return: The first contributor in array
 func GetContributor(body []byte) (Contributer, error) {
 
 	Contributers := []Contributer{}
 
 	jsonError := json.Unmarshal(body, &Contributers)
-	if jsonError != nil{
+	if jsonError != nil {
 		return Contributers[0], jsonError
 	}
 
 	return Contributers[0], nil
 }
 
-// Source: Nataniel Gåsøy, modified by author
+// GetLanguages ...
+// @Source: Nataniel Gåsøy, modified by author
 // @Return: Array with all languages with random order
 func GetLanguages(body []byte) ([]string, error) {
 
@@ -31,19 +32,20 @@ func GetLanguages(body []byte) ([]string, error) {
 
 	LanguageMap := make(map[string]int)
 	jsonError := json.Unmarshal(body, &LanguageMap)
-	if jsonError != nil{
+	if jsonError != nil {
 		return Languages, jsonError
 	}
 
-	for key:=range LanguageMap{
+	for key := range LanguageMap {
 		Languages = append(Languages, key)
 	}
 
 	return Languages, nil
 }
 
+// GetBody ...
 // @Return: Body and error/nil
-func GetBody(url string, myClient http.Client) ([]byte, error){
+func GetBody(url string, myClient http.Client) ([]byte, error) {
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
@@ -73,23 +75,27 @@ func GetBody(url string, myClient http.Client) ([]byte, error){
 	return body, nil
 }
 
-func GetGitRepoUrl(rawUrl *http.Request) ([]string, error){
+// GetGitRepoURL ...
+// @Return: []string of url based on request and error
+func GetGitRepoURL(rawURL *http.Request) ([]string, error) {
 
-	gitRepo := strings.Split(rawUrl.URL.Path, "/")
+	gitRepo := strings.Split(rawURL.URL.Path, "/")
 
 	// Check if url is valid | [4] = owner in URL | [5] = repository in URL
 	if len(gitRepo) >= 6 && gitRepo[3] == "github.com" {
 		return gitRepo, nil
 	}
-	return gitRepo, errors.New("Invalid URL!")
+	return gitRepo, errors.New("invalid URL")
 }
 
-func GetHTTP403(w http.ResponseWriter, failed string){
-	http.Error(w, "Could not get" + failed + "data" , 403)
+// GetHTTP403 ...
+// Redirect user to errorpage
+func GetHTTP403(w http.ResponseWriter, failed string) {
+	http.Error(w, "Could not get"+failed+"data", 403)
 }
 
-func GetHTTP500(w http.ResponseWriter, failed string){
-	http.Error(w, "Could not process" + failed + "data" , 500)
+// GetHTTP500 ...
+// Redirect user to errorpage
+func GetHTTP500(w http.ResponseWriter, failed string) {
+	http.Error(w, "Could not process"+failed+"data", 500)
 }
-
-

@@ -1,10 +1,11 @@
 package main
 
 import (
-	"strings"
 	"io/ioutil"
+	"strings"
 )
 
+// SaveBodyTestData ...
 // Only used to save []byte data to file for testing
 func SaveBodyTestData(url string, body []byte) {
 	if strings.Contains(url, "git/git") {
@@ -24,16 +25,16 @@ func SaveBodyTestData(url string, body []byte) {
 				panic(fileErr)
 			}
 		}
-	}else{
+	} else {
 		println("Please use /git/git!")
 	}
 
 }
 
-
-func LoadTestBodyData(filename string)[]byte{
+// LoadTestBodyData ...
+func LoadTestBodyData(filename string) []byte {
 	body, err := ioutil.ReadFile("./testFiles/" + filename)
-	if err != nil{
+	if err != nil {
 		println("Failed to find test data")
 		panic(err)
 	}
