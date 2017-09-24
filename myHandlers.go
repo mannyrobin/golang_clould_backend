@@ -10,10 +10,10 @@ import (
 // Functionality: controller
 func HandlerGitURL(w http.ResponseWriter, r *http.Request) {
 	http.Header.Add(w.Header(), "content-type", "application/json")
-	w.WriteHeader(http.StatusOK)
+	//w.WriteHeader(http.StatusOK)
 	rawURL, repoError := GetGitRepoURL(r)
 	if repoError != nil {
-		GetHTTP403(w, " repository url ")
+		GetHTTP403(w, "repository url")
 		return
 	}
 
@@ -25,34 +25,40 @@ func HandlerGitURL(w http.ResponseWriter, r *http.Request) {
 
 	repoBody, repBError := GetBody(apiURL, myClient)
 	if repBError != nil {
-		GetHTTP403(w, " repository ")
+		GetHTTP403(w, "repository")
+		return
 	}
 
 	repoData := RepoData{}
 	jsonError := json.Unmarshal(repoBody, &repoData)
 	if jsonError != nil {
 		GetHTTP403(w, "repository")
+		return
 	}
 
 	if repoData.Message != "Not Found" {
 		contribBody, contStatus := GetBody(repoData.Contributors, myClient)
 		if contStatus != nil {
 			GetHTTP403(w, "contributor")
+			return
 		}
 
 		langBody, langStatus := GetBody(repoData.Languages, myClient)
 		if langStatus != nil {
 			GetHTTP403(w, "language")
+			return
 		}
 
 		Best, bestError := GetContributor(contribBody)
 		if bestError != nil {
 			GetHTTP403(w, "contributor")
+			return
 		}
 
 		Language, langError := GetLanguages(langBody)
 		if langError != nil {
 			GetHTTP403(w, "language")
+			return
 		}
 
 		presentedData := PresentedData{}
