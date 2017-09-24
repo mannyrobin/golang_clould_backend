@@ -63,7 +63,7 @@ func HandlerGitURL(w http.ResponseWriter, r *http.Request) {
 
 		presentedData := PresentedData{}
 
-		presentedData.Project = rawURL[3] + "/" + rawURL[4] + "/" + rawURL[5] + "/"
+		presentedData.Project = repoData.Project
 		presentedData.Owner = repoData.Owner.Name
 		presentedData.Committer = Best.Name
 		presentedData.Commits = Best.Contributes

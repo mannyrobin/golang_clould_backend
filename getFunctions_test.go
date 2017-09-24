@@ -91,7 +91,7 @@ func TestHandlerGitURL(t *testing.T) {
 		t.Errorf("Asked for ok status but got %v!", status)
 	}
 
-	expected := `{"project":"github.com/git/git/","owner":"git","committer":"gitster"`
+	expected := `{"project":"git","owner":"git","committer":"gitster"`
 	if !strings.Contains(resReq.Body.String(), expected) {
 		t.Error("Handler returned unexpected body")
 	}
