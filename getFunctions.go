@@ -91,7 +91,9 @@ func GetGitRepoURL(rawURL *http.Request) ([]string, error) {
 // GetHTTP403 ...
 // Redirect user to errorpage
 func GetHTTP403(w http.ResponseWriter, failed string) {
+	w.WriteHeader(http.StatusForbidden)
 	http.Error(w, "Could not get"+failed+"data", 403)
+
 }
 
 // GetHTTP500 ...

@@ -13,7 +13,7 @@ func HandlerGitURL(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	rawURL, repoError := GetGitRepoURL(r)
 	if repoError != nil {
-		GetHTTP403(w, "repository url")
+		GetHTTP403(w, " repository url ")
 		return
 	}
 
@@ -25,7 +25,7 @@ func HandlerGitURL(w http.ResponseWriter, r *http.Request) {
 
 	repoBody, repBError := GetBody(apiURL, myClient)
 	if repBError != nil {
-		GetHTTP403(w, "repository")
+		GetHTTP403(w, " repository ")
 	}
 
 	repoData := RepoData{}
