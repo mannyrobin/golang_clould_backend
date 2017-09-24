@@ -10,7 +10,7 @@ import (
 // Functionality: controller
 func HandlerGitURL(w http.ResponseWriter, r *http.Request) {
 	http.Header.Add(w.Header(), "content-type", "application/json")
-	//w.WriteHeader(http.StatusOK)
+
 	rawURL, repoError := GetGitRepoURL(r)
 	if repoError != nil {
 		GetHTTP403(w, "repository url")
@@ -71,6 +71,7 @@ func HandlerGitURL(w http.ResponseWriter, r *http.Request) {
 
 		json.Marshal(&presentedData)
 		json.NewEncoder(w).Encode(presentedData)
+		w.WriteHeader(http.StatusOK)
 
 	} else {
 		http.Error(w, "Repository not found", 404)
