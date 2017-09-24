@@ -27,38 +27,38 @@ func TestGetContributor(t *testing.T) {
 }
 
 // @Functions: To check if all members of array exist
- func TestGetLanguages(t *testing.T) {
-	 equalFlag := false
+func TestGetLanguages(t *testing.T) {
+	equalFlag := false
 
-	 wantString := strings.Split("C,Shell,Perl,Tcl,Python,C++,Makefile,"+
+	wantString := strings.Split("C,Shell,Perl,Tcl,Python,C++,Makefile,"+
 		 "Emacs Lisp,JavaScript,M4,Roff,Perl 6,Go,CSS,PHP,Assembly,Objective-C", ",")
 
-	 testBody := LoadTestBodyData("languagesBodyTest")
+	testBody := LoadTestBodyData("languagesBodyTest")
 
-	 lang, err := GetLanguages(testBody)
-	 if err != nil {
-		 t.Error(err)
-	 }
+	lang, err := GetLanguages(testBody)
+	if err != nil {
+		t.Error(err)
+	}
 
-	 wantLen := len(wantString)
-	 if len(lang) != wantLen {
-		 t.Error("lang array not same!")
-	 } else {
-		 for i := 0; i < wantLen; i++ {
-			 for j := 0; j < wantLen; j++ {
-				 if lang[i] == wantString[j] {
-					 equalFlag = true
-					 break
-				 }
-			 }
-			 if equalFlag != true {
-			 	t.Error("lang array is not correct")
-			 	return
-			 }
-			 equalFlag = false
-		 }
-	 }
- }
+	wantLen := len(wantString)
+	if len(lang) != wantLen {
+		t.Error("lang array not same!")
+	} else {
+		for i := 0; i < wantLen; i++ {
+			for j := 0; j < wantLen; j++ {
+				if lang[i] == wantString[j] {
+					equalFlag = true
+					break
+				}
+			}
+			if equalFlag != true {
+				t.Error("lang array is not correct")
+				return
+			}
+			equalFlag = false
+		}
+	}
+}
 
 func TestGetGitRepoUrl(t *testing.T) {
 	req := CreateTestReq(t)
